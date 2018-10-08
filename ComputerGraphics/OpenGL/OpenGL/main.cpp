@@ -102,14 +102,26 @@ int main(int argc, char** argv)
 	glGenVertexArrays(1, &vertexArrayID);
 	glBindVertexArray(vertexArrayID);
 
-	// vertex buffer data
+	/*// vertex buffer data
 	const GLfloat vertexBuffer[] = //x,y,z , r , g , b
 	{
 		-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 		1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f,  1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 	};
-
+	*/
+	const GLfloat vertexBuffer[] =
+	{
+		-0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f
+	};
+	const GLushort indexBuffer[] =
+	{
+		0, 1, 2,
+		2, 3, 0
+	};
 
 	// vbo - vertex buffer object
 	GLuint vertexBufferID;
@@ -125,6 +137,14 @@ int main(int argc, char** argv)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 	///////
+
+	//Index Buffer
+	GLuint indexBufferID;
+	glGenBuffers(1, &indexBufferID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexBuffer), indexBuffer, GL_STATIC_DRAW);
+
+
 
 	GLint uniform = glGetUniformLocation(shaderProgramID, "model");
 	glm::mat4 mxModel = glm::mat4(1.0f);
@@ -150,11 +170,13 @@ int main(int argc, char** argv)
 		SDL_PumpEvents();
 
 		mxModel = glm::rotate(mxModel, 0.0001f, glm::vec3(0.0f, 0.0f, 1.0f));
+		                               //^^rotation
 		glUniformMatrix4fv(uniform,1,FALSE,&mxModel[0][0]);
 
 		glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0); //this is almost like using the glDrawArrays
 
 
 		/*
