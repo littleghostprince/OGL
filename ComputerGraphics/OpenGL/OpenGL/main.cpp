@@ -2,6 +2,7 @@
 #include "sdl.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "SOIL.h"
 
 int main(int argc, char** argv)
 {
@@ -19,7 +20,7 @@ int main(int argc, char** argv)
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); //which version of GL is using
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
@@ -37,20 +38,26 @@ int main(int argc, char** argv)
 	const char* vertexShader = "#version 430 core\n"
 		"layout (location = 0) in vec3 position;\n"
 		"layout (location = 1) in vec3 color;\n"
+		"layout (location = 2) in vec2 uv;\n"
 		"out vec3 fragment_color;\n"
+		"out vec2 fragment_uv;\n"
 		"uniform mat4 model;\n"
 		"void main()\n"
 		"{\n"
 		"fragment_color = color;\n"
+		"fragment_uv = uv;\n"
 		"gl_Position = model * vec4(position.x, position.y, position.z, 1.0);\n"
 		"}\0";
 
 	const char* fragmentShader = "#version 430 core\n"
-		"out vec4 color;\n"
 		"in vec3 fragment_color;\n"
+		"in vec2 fragment_uv;\n"
+		"out vec4 color;\n"
+		"uniform sampler2D textureSample;\n"
 		"void main()\n"
 		"{\n"
-		"color = vec4(fragment_color, 1.0);\n"    //you can change the color here 
+		//"color = vec4(fragment_color, 1.0);\n"    //you can change the color here 
+		"color = texture(textureSample,fragment_uv);\n"
 		"}\n\0";
 
 	//creating shaders
@@ -112,10 +119,10 @@ int main(int argc, char** argv)
 	*/
 	const GLfloat vertexBuffer[] =
 	{
-		-0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f
+		-0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 	};
 	const GLushort indexBuffer[] =
 	{
@@ -129,13 +136,21 @@ int main(int argc, char** argv)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexBuffer), vertexBuffer, GL_STATIC_DRAW);
 
+	//position
 	//GLuint position = glGetAttribLocation(shaderProgramID, "position");
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
 	//3 is how many points, FL_FLOAT is what datatype 
+	//8 is the stride. how many is it to the next
 
+	//color
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));    
+
+	//UV
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+
 	///////
 
 	//Index Buffer
@@ -144,7 +159,15 @@ int main(int argc, char** argv)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexBuffer), indexBuffer, GL_STATIC_DRAW);
 
+	//Texture
+	GLuint textureID =	SOIL_load_OGL_texture(
+		"resources\\face.png",
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
 
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	GLint uniform = glGetUniformLocation(shaderProgramID, "model");
 	glm::mat4 mxModel = glm::mat4(1.0f);
