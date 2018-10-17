@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;$(SolutionDir)\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Middleware\SDL2-2.0.8\lib\$(PlatformTarget);$(SolutionDir)..\Middleware\soil\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -90,7 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;$(SolutionDir)\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Middleware\SDL2-2.0.8\lib\$(PlatformTarget);$(SolutionDir)..\Middleware\soil\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -106,7 +106,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;$(SolutionDir)\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -124,7 +124,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)..\Middleware\soil\src;$(SolutionDir)\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -136,10 +136,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Middleware\glad\src\glad.c" />
+    <ClCompile Include="..\Source\Core\engine.cpp" />
+    <ClCompile Include="..\Source\Core\file_system.cpp" />
+    <ClCompile Include="..\Source\Core\input.cpp" />
+    <ClCompile Include="..\Source\Core\timer.cpp" />
+    <ClCompile Include="..\Source\Renderer\renderer.cpp" />
+    <ClCompile Include="..\Source\Renderer\shader.cpp" />
+    <ClCompile Include="..\Source\Renderer\vertex_array.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="scene01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Middleware\soil\src\SOIL.h" />
+    <ClInclude Include="..\Source\Core\engine.h" />
+    <ClInclude Include="..\Source\Core\file_system.h" />
+    <ClInclude Include="..\Source\Core\input.h" />
+    <ClInclude Include="..\Source\Core\scene.h" />
+    <ClInclude Include="..\Source\Core\system.h" />
+    <ClInclude Include="..\Source\Core\timer.h" />
+    <ClInclude Include="..\Source\Math\transform.h" />
+    <ClInclude Include="..\Source\Renderer\renderer.h" />
+    <ClInclude Include="..\Source\Renderer\shader.h" />
+    <ClInclude Include="..\Source\Renderer\vertex_array.h" />
+    <ClInclude Include="..\Source\Scenes\scene01.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Shaders\basic.fs" />
+    <None Include="..\Resources\Shaders\basic.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
