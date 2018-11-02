@@ -14,7 +14,7 @@ public:
 
 	const char* Name() { return "FileSystem"; }
 
-	bool ReadFileToString(const std::string& filename, std::string& filestring);
+	static bool ReadFileToString(const std::string& filename, std::string& filestring);
 
 	void SetPathname(const std::string& pathname) { m_pathname = pathname; }
 	const std::string& GetPathname() { return m_pathname; }

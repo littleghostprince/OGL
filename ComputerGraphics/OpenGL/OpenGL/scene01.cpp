@@ -4,9 +4,9 @@ bool Scene01::Initialize()
 {
 
 	//shader
-	m_shader = new Shader(m_engine);
-	m_shader->CompileShader("shaders\\basic.vs", GL_VERTEX_SHADER);
-	m_shader->CompileShader("shaders\\basic.fs", GL_FRAGMENT_SHADER);
+	m_shader = new Shader();
+	m_shader->CompileShader(m_engine->Get<FileSystem>()->GetPathname() +"shaders\\basic.vs", GL_VERTEX_SHADER);
+	m_shader->CompileShader(m_engine->Get<FileSystem>()->GetPathname()+"shaders\\basic.fs", GL_FRAGMENT_SHADER);
 	m_shader->Link();
 	m_shader->Use(); //active
 
@@ -20,15 +20,15 @@ bool Scene01::Initialize()
 	*/
 	const GLfloat vertexBuffer[] =
 	{
-		-0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
+		-0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f
 	};
 	const GLushort indexBuffer[] =
 	{
-		0, 1, 2,
-		2, 3, 0
+		0, 3, 2,
+		2, 1, 0
 	};
 
 	m_vertexArray = new VertexArray(m_engine);
@@ -38,10 +38,6 @@ bool Scene01::Initialize()
 	m_vertexArray->SetAttribute(0, 3, (8 * sizeof(GLfloat)), 0);
 	m_vertexArray->SetAttribute(1, 3, (8 * sizeof(GLfloat)), (void*)(3*sizeof(GLfloat)));
 	m_vertexArray->SetAttribute(2, 2, (8 * sizeof(GLfloat)), (void*)(6 * sizeof(GLfloat)));
-
-	// vbo - vertex buffer object
-	GLuint vertexBufferID;
-
 
 	//position
 	//GLuint position = glGetAttribLocation(shaderProgramID, "position");
@@ -60,18 +56,8 @@ bool Scene01::Initialize()
 
 	///////
 
-	//Index Buffer
-	GLuint indexBufferID;
-	
-
 	//Texture
-	GLuint textureID = SOIL_load_OGL_texture(
-		"resources\\face.png",
-		SOIL_LOAD_AUTO,
-		SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
-	);
-
+	GLuint textureID = Material::LoadTexture(m_engine->Get<FileSystem>()->GetPathname() + "face.png");
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	m_engine->Get<Input>()->AddAction("left", SDL_SCANCODE_LEFT, Input::KEYBOARD);
@@ -120,7 +106,7 @@ void Scene01::Update()
 void Scene01::Render()
 {
 	glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_vertexArray->Draw(GL_TRIANGLES);
 

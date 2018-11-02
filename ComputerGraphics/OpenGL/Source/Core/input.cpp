@@ -4,6 +4,7 @@
 
 bool Input::Initialize()
 {
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 
 	SDL_GetKeyboardState(&m_numKeys);
 	m_keystate = new Uint8[m_numKeys];
@@ -14,7 +15,7 @@ bool Input::Initialize()
 	memcpy(m_prevKeystate, m_keystate, m_numKeys);
 
 	m_mouseButtonState = SDL_GetMouseState(nullptr, nullptr);
-	m_prevMouseButton = m_mouseButtonState;
+	m_prevMouseButtonState = m_mouseButtonState;
 
 		for (int i = 0; i < SDL_NumJoysticks(); i++)
 		{
@@ -47,12 +48,11 @@ void Input::Update()
 	memcpy(m_keystate, keystate, m_numKeys);
 
 	//mouse
-	m_prevMouseButton = m_mouseButtonState;
-	m_mouseButtonState = SDL_GetMouseState(nullptr, nullptr);
+	m_prevMouseButtonState = m_mouseButtonState;
 	m_prevMousePosition = m_mousePosition;
 	SDL_Point axis;
-	SDL_GetMouseState(&axis.x,&axis.y);
-	m_mousePosition = glm::vec2(axis.x,axis.y);
+	m_mouseButtonState = SDL_GetRelativeMouseState(&axis.x, &axis.y);
+	m_mousePosition = glm::vec2(axis.x, axis.y);
 
 	//controller
 	for (ControllerInfo& controllerInfo : m_controllers)
@@ -200,9 +200,11 @@ float Input::GetAxisRelative(int id, eDevice device, int index)
 	case eDevice::KEYBOARD:
 		assert(0);
 		break;
+
 	case eDevice::MOUSE:
-		axis = m_mousePosition[id] - m_prevMousePosition[id];
+		axis = m_mousePosition[id]; //- m_prevMousePosition[id];
 		break;
+
 	case eDevice::CONTROLLER:
 		assert(index < (int) m_controllers.size());
 		axis = m_controllers[index].axis[id] - m_controllers[index].prevAxis[id];
@@ -244,7 +246,7 @@ bool Input::GetPreviousButtonDown(int id, eDevice device, int index)
 		buttonDown = m_prevKeystate[id];
 		break;
 	case eDevice::MOUSE:
-		buttonDown = m_prevMouseButton & SDL_BUTTON(id);
+		buttonDown = m_prevMouseButtonState & SDL_BUTTON(id);
 		break;
 	case eDevice::CONTROLLER:
 		assert(index < (int)m_controllers.size());

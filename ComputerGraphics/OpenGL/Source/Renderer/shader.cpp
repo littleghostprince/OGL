@@ -34,7 +34,7 @@ void Shader::CompileShader(const std::string& filename, GLenum shaderType)
 
 	// get shader string
 	std::string shaderString;
-	m_engine->Get<FileSystem>()->ReadFileToString(filename, shaderString);
+	FileSystem::ReadFileToString(filename, shaderString);
 	
 	// create shader from string
 	GLuint shaderID = CreateShader(shaderString, shaderType);
@@ -60,12 +60,16 @@ GLuint Shader::CreateShader(const std::string& source, GLenum shaderType)
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
-		std::vector<GLchar> infoLog(maxLength);
-		glGetShaderInfoLog(shaderID, maxLength, &maxLength, &infoLog[0]);
-		SDL_Log("Error: Failed to compile shader.\n");
-		SDL_Log("Shader Info: %s\n", infoLog);
+		if (maxLength > 0)
+		{
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(shaderID, maxLength, &maxLength, &infoLog[0]);
+			SDL_Log("Error: Failed to compile shader.\n");
+			SDL_Log("Shader Info: %s\n", &infoLog[0]);
+		}
 
 		glDeleteShader(shaderID);
+		shaderID = 0;
 	}
 
 	return shaderID;

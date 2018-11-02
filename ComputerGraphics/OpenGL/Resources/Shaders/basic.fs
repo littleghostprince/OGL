@@ -8,6 +8,5 @@ uniform sampler2D textureSample;
 
 void main()
 {
-	//color = vec4(fragment_color, 1.0);
-	color = texture(textureSample, fragment_uv);
+	color = texture(textureSample, fragment_uv) * vec4(fragment_color, 1.0); 
 }

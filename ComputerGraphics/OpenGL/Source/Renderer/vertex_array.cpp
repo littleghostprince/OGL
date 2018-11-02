@@ -51,7 +51,7 @@ void VertexArray::Draw(GLenum primitiveType)
 {
 	if (m_numIndex == 0)
 	{
-		//glDrawArrays();
+		glDrawArrays(primitiveType,0,m_numVertex);
 	}
 	else
 	{

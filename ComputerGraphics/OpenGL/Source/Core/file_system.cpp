@@ -20,7 +20,7 @@ void FileSystem::Update()
 
 bool FileSystem::ReadFileToString(const std::string& filename, std::string& filestring)
 {
-	std::string filepath = m_pathname + filename;
+	std::string filepath =filename;
 
 	std::ifstream fileStream(filepath, std::ios::in);
 	if (!fileStream.is_open())

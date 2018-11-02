@@ -1,6 +1,11 @@
 #pragma once
 #include "core/engine.h"
 
+#include "shader.h"
+#include "vertex_array.h"
+#include "vertex_arrays.h"
+#include "material.h"
+
 class Renderer : public System
 {
 public:
@@ -13,6 +18,7 @@ public:
 
 	const char* Name() { return "Renderer"; }
 
+	void ClearBuffer();
 	void SwapBuffer(){ SDL_GL_SwapWindow(m_window); }
 	int GetWidth() { return m_width; }
 	int GetHeight() { return m_height; }

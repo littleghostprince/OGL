@@ -82,7 +82,7 @@ private:
 	
 	//Mouse 
 	Uint32 m_mouseButtonState;
-	Uint32 m_prevMouseButton;
+	Uint32 m_prevMouseButtonState;
 	glm::vec2 m_mousePosition;
 	glm::vec2 m_prevMousePosition;
 	

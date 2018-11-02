@@ -4,7 +4,7 @@
 class Shader
 {
 public:
-	Shader(Engine* engine) { m_engine = engine; }
+	Shader() {}
 	~Shader();
 
 public:
@@ -32,7 +32,6 @@ private:
 	GLint GetUniform(const std::string& name);
 		
 private:
-	Engine * m_engine = nullptr;
 	
 	GLuint m_programID = 0;
 	bool m_isLinked = false;
