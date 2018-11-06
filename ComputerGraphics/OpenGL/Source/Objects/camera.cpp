@@ -24,8 +24,8 @@ void Camera::Update()
 	glm::vec3 rotate(0.0f);
 	
 	// update rotation
-	rotate.x = scene->m_engine->Get<Input>()->GetActionAxisRelative("y-axis") * 0.005f;
-	rotate.y = scene->m_engine->Get<Input>()->GetActionAxisRelative("x-axis") * 0.005f;
+	rotate.x = scene->m_engine->Get<Input>()->GetActionAxisRelative("y-axis") * 0.002f;
+	rotate.y = scene->m_engine->Get<Input>()->GetActionAxisRelative("x-axis") * 0.002f;
 	glm::quat qpitch = glm::angleAxis(rotate.x, glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::quat qyaw = glm::angleAxis(rotate.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	transform.rotation = qpitch * transform.rotation * qyaw;

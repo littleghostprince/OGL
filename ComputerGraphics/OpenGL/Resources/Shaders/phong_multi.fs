@@ -49,7 +49,10 @@ void main()
         specular = light.specular * material.specular * specular_intensity;
     }
 
-	color = (mix(texture(textureSample1,fragment_uv), texture(textureSample2, fragment_uv),0.5) * vec4(ambient + diffuse, 1.0) )+ vec4(specular, 1.0);
+	vec4 color1 = texture(textureSample1,fragment_uv);
+	vec4 color2 = texture(textureSample2,fragment_uv);
+
+	color = (mix(color1, color2, color2.a) * vec4(ambient + diffuse, 1.0) ) + vec4(specular, 1.0);
 
 	//color =  vec4(ambient + diffuse, 1.0) * textureColor + vec4(specular,1.0);
 

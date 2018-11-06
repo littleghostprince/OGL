@@ -2,8 +2,9 @@
 #include "Objects/camera.h"
 #include "Objects/light.h"
 #include "Objects/sphere.h"
+#include "Objects/point_light.h"
 
-//#define MULTI_TEXTURE
+#define MULTI_TEXTURE
 //#define SPECULAR_MAP
 
 static float cube_vertices[] = {
@@ -63,25 +64,30 @@ bool Scene04::Initialize()
 	model->Initialize(1.0f, 20.0f, 20.0f);
 	model->transform.scale = glm::vec3(5.0f); //scaling
 
+	//point light
+	PointLight * light = this->CreateObject<PointLight>();
+	light->transform.translation = glm::vec3(10.0f, 10.0f, 10.0f);
 
 	//light
-	Light* light = this->CreateObject<Light>("pointlight");
+
+	/*Light* light = this->CreateObject<Light>("pointlight");
 	light->diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-	light->transform.translation = glm::vec3(5.0f, 10.0f, 10.0f);
+	light->transform.translation = glm::vec3(5.0f, 10.0f, 10.0f);*/
 
 	//shader
 	
-	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.fs", GL_FRAGMENT_SHADER);
+	/*model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.fs", GL_FRAGMENT_SHADER);
 	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.vs", GL_VERTEX_SHADER);
+	*/
 
-/*#ifdef SPECULAR_MAP
+#ifdef SPECULAR_MAP
 	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_specular_map.fs", GL_FRAGMENT_SHADER);
 	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_specular_map.vs", GL_VERTEX_SHADER);
 #elif defined MULTI_TEXTURE
 	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_multi.fs", GL_FRAGMENT_SHADER);
 	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_multi.vs", GL_VERTEX_SHADER);
 
-#endif */
+#endif 
 	
 	model->m_shader.Link();
 	model->m_shader.Use(); //active
@@ -101,22 +107,22 @@ bool Scene04::Initialize()
 
 
 	model->m_material.ambient = glm::vec3(0.2f); //makes it less bright globally
-	model->m_material.diffuse = glm::vec3(0.0f,0.0f,0.0f);
+	model->m_material.diffuse = glm::vec3(1.0f,1.0f,1.0f);
 	model->m_material.specular = glm::vec3(0.5f);
 	model->m_material.shininess = 1.0f;
 
-/*#ifdef SPECULAR_MAP
+#ifdef SPECULAR_MAP
 	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "metal-diffuse.png", GL_TEXTURE0);
 	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "metal-specular.png",GL_TEXTURE1);
 #elif defined MULTI_TEXTURE
 	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "metal-diffuse.png", GL_TEXTURE0);
 	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "moss.png", GL_TEXTURE1);
 #endif
-*/
 
-	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "flower.png", GL_TEXTURE0);
+
+	/*model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "flower.png", GL_TEXTURE0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-
+	*/
 	model->m_material.SetTextures();
 
 	model->m_shader.SetUniform("material.ambient", model->m_material.ambient);
@@ -163,7 +169,10 @@ void Scene04::Update()
 	camera->Update();
 	
 	//update light                
-	glm::vec4 lightPosition = camera->transform.matrix * glm::vec4(5.0f, 10.0f, 10.0f, 1.0f);
+	PointLight* light = this->GetObject<PointLight>();
+	light->Update();
+
+	glm::vec4 lightPosition = light->GetPositionFromView(camera->transform.matrix);
 	model->m_shader.SetUniform("light.position", lightPosition);
 	
 	m_uvOffset.y = m_uvOffset.y + (0.1f*dt);
@@ -200,9 +209,13 @@ void Scene04::Render()
 
 	m_engine->Get<Renderer>()->ClearBuffer();
 	
-	Sphere* model = this->GetObject<Sphere>();
-	model->Draw();
-	//m_vertexArray->Draw(GL_TRIANGLES);
+
+	std::vector<Renderable*> renderables = this->GetObjects<Renderable>();
+
+	for (Renderable* renderable : renderables)
+	{
+		renderable->Draw(); //draws all our objects
+	}
 	
 	m_engine->Get<Renderer>()->SwapBuffer();
 

@@ -1,6 +1,7 @@
 #include "Scenes/scene03.h"
 #include "Objects/camera.h"
 #include "Objects/light.h"
+#include "Objects/point_light.h"
 
 static float cube_vertices[] = {
 	// Front
@@ -51,10 +52,14 @@ bool Scene03::Initialize()
 	//camera
 	m_camera = this->CreateObject<Camera>();
 
+	//point light
+	PointLight * light = this->CreateObject<PointLight>();
+	light->transform.translation = glm::vec3(10.0f, 10.0f, 10.0f);
+
 	//light
-	Light* light = this->CreateObject<Light>("pointlight");
-	light->diffuse = glm::vec3(0.0f, 0.0f, 1.0f);
-	light->transform.translation = glm::vec3(5.0f, 10.0f, 10.0f);
+	//Light* light = this->CreateObject<Light>("pointlight");
+	//light->diffuse = glm::vec3(0.0f, 0.0f, 1.0f);
+	//light->transform.translation = glm::vec3(5.0f, 10.0f, 10.0f);
 
 	//shader
 	m_shader = new Shader();
@@ -125,7 +130,10 @@ void Scene03::Update()
 	m_camera->SetView(glm::vec3(0.0f, 0.0f, 25.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	//update light                
-	glm::vec4 lightPosition = m_camera->transform.matrix * glm::vec4(5.0f, 10.0f, 10.0f, 1.0f);
+	PointLight* light = this->GetObject<PointLight>();
+	light->Update();
+
+	glm::vec4 lightPosition = light->GetPositionFromView(m_camera->transform.matrix);
 	m_shader->SetUniform("light.position", lightPosition);
 
 	/*Light* light = this->GetObjects<Light>("pointlight");

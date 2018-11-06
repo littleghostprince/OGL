@@ -69,7 +69,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,11 +82,13 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)\Source;$(SolutionDir)..\Middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Middleware\SDL2-2.0.8\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalOptions>/debug:fastlink %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -91,11 +98,13 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)\Source;$(SolutionDir)..\Middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Middleware\SDL2-2.0.8\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalOptions>/debug:fastlink %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)\Source;$(SolutionDir)..\Middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -114,6 +124,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)..\Middleware\SDL2-2.0.8\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalOptions>/debug:fastlink %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,6 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Middleware\glad\include;$(SolutionDir)..\Middleware\SDL2-2.0.8\include;$(SolutionDir)..\Middleware\glm;$(SolutionDir)\Source;$(SolutionDir)..\Middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -132,6 +144,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)..\Middleware\SDL2-2.0.8\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <AdditionalOptions>/debug:fastlink %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -157,6 +170,7 @@
     <ClCompile Include="..\Source\Scenes\scene02.cpp" />
     <ClCompile Include="..\Source\Scenes\scene03.cpp" />
     <ClCompile Include="..\Source\Scenes\scene04.cpp" />
+    <ClCompile Include="..\Source\Scenes\scene05.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene01.cpp" />
   </ItemGroup>
@@ -177,6 +191,7 @@
     <ClInclude Include="..\Source\Objects\model.h" />
     <ClInclude Include="..\Source\Objects\plane.h" />
     <ClInclude Include="..\Source\Objects\point_light.h" />
+    <ClInclude Include="..\Source\Objects\renderable.h" />
     <ClInclude Include="..\Source\Objects\sphere.h" />
     <ClInclude Include="..\Source\Objects\torus.h" />
     <ClInclude Include="..\Source\Renderer\material.h" />
@@ -188,10 +203,13 @@
     <ClInclude Include="..\Source\Scenes\scene02.h" />
     <ClInclude Include="..\Source\Scenes\scene03.h" />
     <ClInclude Include="..\Source\Scenes\scene04.h" />
+    <ClInclude Include="..\Source\Scenes\scene05.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\basic.fs" />
     <None Include="..\Resources\Shaders\basic.vs" />
+    <None Include="..\Resources\Shaders\basic_color.fs" />
+    <None Include="..\Resources\Shaders\basic_color.vs" />
     <None Include="..\Resources\Shaders\basic_uv.fs" />
     <None Include="..\Resources\Shaders\basic_uv.vs" />
     <None Include="..\Resources\Shaders\gouraud_ads.vs" />
@@ -199,6 +217,8 @@
     <None Include="..\Resources\Shaders\grourad.vs" />
     <None Include="..\Resources\Shaders\phong.fs" />
     <None Include="..\Resources\Shaders\phong.vs" />
+    <None Include="..\Resources\Shaders\phong_fog.fs" />
+    <None Include="..\Resources\Shaders\phong_fog.vs" />
     <None Include="..\Resources\Shaders\phong_multi.fs" />
     <None Include="..\Resources\Shaders\phong_multi.vs" />
     <None Include="..\Resources\Shaders\phong_specular_map.fs" />
