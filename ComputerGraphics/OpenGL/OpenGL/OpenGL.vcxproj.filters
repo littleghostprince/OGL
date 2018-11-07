@@ -108,6 +108,9 @@
     <ClCompile Include="..\Source\Scenes\scene05.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Scenes\scene06.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Middleware\soil\src\SOIL.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Objects\renderable.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scenes\scene06.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

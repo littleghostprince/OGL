@@ -4,6 +4,7 @@
 #include "Scenes//scene03.h"
 #include"Scenes/scene04.h"
 #include "Scenes/scene05.h"
+#include "Scenes/scene06.h"
 
 int main(int argc, char** argv)
 {
@@ -24,7 +25,7 @@ int main(int argc, char** argv)
 	//Scene* scene2 = new Scene02(&engine);
 	//scene2->Initialize();
 	
-	Scene* scene = new Scene05(&engine);
+	Scene* scene = new Scene06(&engine);
 	scene->Initialize();
 
 	while (!engine.ForceQuit())

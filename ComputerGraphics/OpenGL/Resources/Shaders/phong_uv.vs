@@ -13,8 +13,8 @@ uniform mat4		model_view_matrix;
 uniform mat4		model_view_projection_matrix;
 uniform mat3		normal_matrix;
 
-uniform vec2 uv_offset;
-uniform vec2 uv_Scale;
+uniform vec2 uv_offset = vec2(0.0,0.0);
+uniform vec2 uv_Scale = vec2(1.0,1.0);
 
 void main()
 {
