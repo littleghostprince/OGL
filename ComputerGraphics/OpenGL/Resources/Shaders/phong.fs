@@ -25,19 +25,30 @@ layout (binding = 0) uniform sampler2D textureSample;
 
 out vec4 color;
 
-void main()
+void phong(vec3 position,vec3 normal,out vec3 diffuse, out vec3 specular)
 {
-    vec3 position_to_light = normalize(vec3(light.position) - fragment_position);
+//light_s light = lights[light_index];
+vec3 position_to_light;
+
+    	if (light.position.w == 0.0)
+			{
+				position_to_light = normalize(vec3(light.position));
+			}
+		else
+			{
+			position_to_light = normalize(vec3(light.position) - position);
+			}
+
 
     // ambient
     vec3 ambient = material.ambient;
 
     // diffuse
     float diffuse_intensity = max(dot(position_to_light, fragment_normal), 0.0);
-    vec3 diffuse = material.diffuse * light.diffuse * diffuse_intensity;
+    diffuse = material.diffuse * light.diffuse * diffuse_intensity;
 
     // specular
-    vec3 specular = vec3(0.0);
+    specular = vec3(0.0);
     if (diffuse_intensity > 0.0)
     {
         vec3 position_to_view = normalize(-fragment_position.xyz);
@@ -47,5 +58,20 @@ void main()
         specular = light.specular * material.specular * specular_intensity;
     }
 
-    color = vec4(ambient + diffuse, 1.0) * texture(textureSample, fragment_uv) + vec4(specular, 1.0);
+}
+void main()
+{
+    vec3 ambient = material.ambient;
+	vec3 diffuse;
+	vec3 specular;
+
+	vec3 final_color = ambient;
+	//multiple 
+	//for(i=0; i <num_lights;i++)
+	//{
+	phong(fragment_position,fragment_position,diffuse,specular);
+	final_color+=(diffuse + specular);
+	//}
+
+    color = texture(textureSample, fragment_uv) * vec4(final_color, 1.0);
 }

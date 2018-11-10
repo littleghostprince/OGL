@@ -12,4 +12,6 @@ public:
 public:
 	glm::vec3 diffuse;
 	glm::vec3 specular;
+	float cutoff;
+	float exponent;
 };

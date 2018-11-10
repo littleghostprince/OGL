@@ -161,6 +161,7 @@
     <ClCompile Include="..\Source\Objects\plane.cpp" />
     <ClCompile Include="..\Source\Objects\point_light.cpp" />
     <ClCompile Include="..\Source\Objects\sphere.cpp" />
+    <ClCompile Include="..\Source\Objects\spot_light.cpp" />
     <ClCompile Include="..\Source\Objects\torus.cpp" />
     <ClCompile Include="..\Source\Renderer\material.cpp" />
     <ClCompile Include="..\Source\Renderer\renderer.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="..\Source\Scenes\scene04.cpp" />
     <ClCompile Include="..\Source\Scenes\scene05.cpp" />
     <ClCompile Include="..\Source\Scenes\scene06.cpp" />
+    <ClCompile Include="..\Source\Scenes\scene07.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene01.cpp" />
   </ItemGroup>
@@ -194,6 +196,7 @@
     <ClInclude Include="..\Source\Objects\point_light.h" />
     <ClInclude Include="..\Source\Objects\renderable.h" />
     <ClInclude Include="..\Source\Objects\sphere.h" />
+    <ClInclude Include="..\Source\Objects\spot_light.h" />
     <ClInclude Include="..\Source\Objects\torus.h" />
     <ClInclude Include="..\Source\Renderer\material.h" />
     <ClInclude Include="..\Source\Renderer\renderer.h" />
@@ -206,6 +209,7 @@
     <ClInclude Include="..\Source\Scenes\scene04.h" />
     <ClInclude Include="..\Source\Scenes\scene05.h" />
     <ClInclude Include="..\Source\Scenes\scene06.h" />
+    <ClInclude Include="..\Source\Scenes\scene07.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\basic.fs" />
@@ -225,6 +229,8 @@
     <None Include="..\Resources\Shaders\phong_multi.vs" />
     <None Include="..\Resources\Shaders\phong_specular_map.fs" />
     <None Include="..\Resources\Shaders\phong_specular_map.vs" />
+    <None Include="..\Resources\Shaders\phong_spotlight.fs" />
+    <None Include="..\Resources\Shaders\phong_spotlight.vs" />
     <None Include="..\Resources\Shaders\phong_uv.fs" />
     <None Include="..\Resources\Shaders\phong_uv.vs" />
   </ItemGroup>

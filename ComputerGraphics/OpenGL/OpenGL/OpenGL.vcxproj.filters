@@ -111,6 +111,12 @@
     <ClCompile Include="..\Source\Scenes\scene06.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Scenes\scene07.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Objects\spot_light.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Middleware\soil\src\SOIL.h">
@@ -203,6 +209,12 @@
     <ClInclude Include="..\Source\Scenes\scene06.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Scenes\scene07.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Objects\spot_light.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\basic.fs">
@@ -260,6 +272,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\basic_color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong_spotlight.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong_spotlight.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
