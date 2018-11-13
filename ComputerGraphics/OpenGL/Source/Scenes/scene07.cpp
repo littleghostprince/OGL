@@ -7,6 +7,7 @@
 #include "Objects/plane.h"
 #include "Objects/directional_light.h"
 #include "Objects/spot_light.h"
+#include "Math/transform.h"
 
 bool Scene07::Initialize()
 {
@@ -138,6 +139,18 @@ void Scene07::Update()
 		model->m_shader.SetUniform("light.cutoff", light->cutoff);
 		model->m_shader.SetUniform("light.exponent", light->exponent);
 	}
+
+	m_engine->Get<UI>()->Start();
+	ImGui::Begin("Window");
+	ImGui::Text("Hello World");
+	ImGui::ColorEdit3("Diffuse", (float*)&light->diffuse);
+	ImGui::ColorEdit3("Specular", (float*)&light->specular);
+	ImGui::End();
+
+	ImGui::Begin("Transform");
+	model = this->GetObject<Model>("model1");
+	Transform::Edit(&model->transform);
+	ImGui::End();
 }
 
 void Scene07::Render()
@@ -151,7 +164,8 @@ void Scene07::Render()
 	{
 		renderable->Draw(); //draws all our objects
 	}
-	
+	m_engine->Get<UI>()->Draw();
+
 	m_engine->Get<Renderer>()->SwapBuffer();
 
 }

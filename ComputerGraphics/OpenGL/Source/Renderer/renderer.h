@@ -5,6 +5,7 @@
 #include "vertex_array.h"
 #include "vertex_arrays.h"
 #include "material.h"
+#include "ui.h"
 
 class Renderer : public System
 {
@@ -22,6 +23,8 @@ public:
 	void SwapBuffer(){ SDL_GL_SwapWindow(m_window); }
 	int GetWidth() { return m_width; }
 	int GetHeight() { return m_height; }
+
+	friend class UI;
 
 private:
 	SDL_Window * m_window = nullptr;

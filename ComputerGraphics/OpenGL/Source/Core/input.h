@@ -1,7 +1,11 @@
 #pragma once
+#include "system.h"
 #include "engine.h"
+#include <vector>
+#include <map>
+#include <glm/glm.hpp>
 
-class Input : public System
+class  Input : public System
 {
 public:
 	enum eButtonState
@@ -24,70 +28,61 @@ public:
 		X,
 		Y
 	};
-	
+
 	struct InputInfo
 	{
-		eDevice device;
 		int id;
+		eDevice device;
 		int index;
 	};
 
 	struct ControllerInfo
 	{
-		SDL_GameController* controller; 
-		
-		Uint8 buttonState[SDL_CONTROLLER_BUTTON_MAX];
-		Uint8 prevButtonState[SDL_CONTROLLER_BUTTON_MAX];
+		SDL_GameController* controller;
 
+		Uint8 buttonstate[SDL_CONTROLLER_BUTTON_MAX];
+		Uint8 prevButtonstate[SDL_CONTROLLER_BUTTON_MAX];
 		float axis[SDL_CONTROLLER_AXIS_MAX];
 		float prevAxis[SDL_CONTROLLER_AXIS_MAX];
-
 	};
 
 public:
-	Input(Engine* engine) : System(engine) {};
-	virtual ~Input() {};
-
+	Input(Engine* engine) : System(engine) {}
+	virtual ~Input() {}
+	
 	bool Initialize();
 	void Shutdown();
 	void Update();
 
-	const char* Name() { return "Input"; }
+	const char* Name() override { return "Input Manager"; }
 
-	void AddAction(const std::string& action, int id, eDevice device, int index=0);
+	void AddAction(const std::string& action, int id, eDevice device, int index = 0);
 	eButtonState GetActionButton(const std::string& action);
 	float GetActionAxisAbsolute(const std::string& action);
 	float GetActionAxisRelative(const std::string& action);
 
-	//eButtonState GetButtonAction(SDL_Scancode scancode);
-	//eButtonState GetMouseButtonAction(int button);
-
 	eButtonState GetButtonState(int id, eDevice device = eDevice::KEYBOARD, int index = 0);
-	
-	float GetAxisAbsolute(int id, eDevice device = eDevice::MOUSE, int index = 0);
-	float GetAxisRelative(int id, eDevice device = eDevice::MOUSE, int index = 0);
-
+	float GetAxisAbsolute(int id, eDevice device = eDevice::MOUSE, size_t index = 0);
+	float GetAxisRelative(int id, eDevice device = eDevice::MOUSE, size_t index = 0);
 
 protected:
 	bool GetButtonDown(int id, eDevice device, int index = 0);
 	bool GetPreviousButtonDown(int id, eDevice device, int index = 0);
 
-
 private:
+	// keyboard
+	Uint8* m_keystate;
+	Uint8* m_prevKeystate;
+	int m_numKeys;
 
-	//Keyboard
-	Uint8* m_prevKeystate = 0;
-	Uint8* m_keystate = 0;
-	int m_numKeys = 0 ;
-	
-	//Mouse 
-	Uint32 m_mouseButtonState;
-	Uint32 m_prevMouseButtonState;
+	// mouse
+	Uint32 m_mouseButtonstate;
+	Uint32 m_prevMouseButtonstate;
 	glm::vec2 m_mousePosition;
 	glm::vec2 m_prevMousePosition;
-	
-	//Controller
+		
+	// controller
 	std::vector<ControllerInfo> m_controllers;
+
 	std::map<std::string, InputInfo> m_actions;
 };
-
