@@ -7,8 +7,8 @@ Spot_light::Spot_light(Scene* scene, const std::string& name) : Light(scene, nam
 	m_model = new Cube(scene);
 	m_model->Initialize(0.1f);
 
-	m_model->m_shader.CompileShader(scene->m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_spotlight.vs", GL_VERTEX_SHADER);
-	m_model->m_shader.CompileShader(scene->m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_spotlight.fs", GL_FRAGMENT_SHADER);
+	m_model->m_shader.CompileShader(scene->m_engine->Get<FileSystem>()->GetPathname() + "shaders\\basic_color.vs", GL_VERTEX_SHADER);
+	m_model->m_shader.CompileShader(scene->m_engine->Get<FileSystem>()->GetPathname() + "shaders\\basic_color.fs", GL_FRAGMENT_SHADER);
 	m_model->m_shader.Link();
 }
 

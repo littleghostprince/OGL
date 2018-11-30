@@ -7,6 +7,9 @@
 #include "Scenes/scene06.h"
 #include "Scenes/scene07.h"
 #include "Scenes/scene08.h"
+#include "Scenes/scene09.h"
+#include "Scenes/scene10.h"
+#include "Scenes/scene11.h"
 
 int main(int argc, char** argv)
 {
@@ -21,7 +24,7 @@ int main(int argc, char** argv)
 	engine.Initialize();
 	engine.Get<FileSystem>()->SetPathname("resources\\");
 
-	Scene* scene = new Scene08(&engine);
+	Scene* scene = new Scene09(&engine);
 	scene->Initialize();
 
 	while (!engine.ForceQuit())

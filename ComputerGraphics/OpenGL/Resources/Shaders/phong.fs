@@ -21,6 +21,7 @@ struct light_s
 
 uniform light_s        light;
 uniform material_s    material;
+
 layout (binding = 0) uniform sampler2D textureSample;
 
 out vec4 color;
@@ -73,5 +74,5 @@ void main()
 	final_color+=(diffuse + specular);
 	//}
 
-    color = texture(textureSample, fragment_uv) * vec4(final_color, 1.0);
+    color = texture(textureSample, fragment_uv)* vec4(final_color, 1.0);
 }

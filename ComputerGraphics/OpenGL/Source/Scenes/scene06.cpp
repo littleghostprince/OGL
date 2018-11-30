@@ -40,8 +40,8 @@ bool Scene06::Initialize()
 	
 	//shader
 	
-	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.fs", GL_FRAGMENT_SHADER);
-	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.vs", GL_VERTEX_SHADER);
+	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_multi.fs", GL_FRAGMENT_SHADER);
+	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_multi.vs", GL_VERTEX_SHADER);
 	
 	model->m_shader.Link();
 	model->m_shader.Use(); //active
@@ -57,7 +57,7 @@ bool Scene06::Initialize()
 	model->m_shader.SetUniform("material.specular", model->m_material.specular);
 	model->m_shader.SetUniform("material.shininess", model->m_material.shininess);
 
-	model->m_shader.SetUniform("light.ambient", glm::vec3(0.0f, 0.0f, 1.0f));
+	//model->m_shader.SetUniform("light.ambient", glm::vec3(0.0f, 0.0f, 1.0f));
 
 	//MODEL 2
 
@@ -67,8 +67,8 @@ bool Scene06::Initialize()
 
 	//shader
 
-	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.fs", GL_FRAGMENT_SHADER);
-	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_uv.vs", GL_VERTEX_SHADER);
+	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_multi.fs", GL_FRAGMENT_SHADER);
+	model->m_shader.CompileShader(m_engine->Get<FileSystem>()->GetPathname() + "shaders\\phong_multi.vs", GL_VERTEX_SHADER);
 	model->m_shader.Link();
 	model->m_shader.Use(); //active
 
@@ -77,7 +77,7 @@ bool Scene06::Initialize()
 	model->m_material.ambient = glm::vec3(0.2f); //makes it less bright globally
 	model->m_material.shininess = 1.0f;
 
-	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "cobble-diffuse.tga", GL_TEXTURE0);
+	model->m_material.AddTexture(m_engine->Get<FileSystem>()->GetPathname() + "cobble-diffuse.tga", GL_TEXTURE1);
 
 	model->m_material.SetTextures();
 

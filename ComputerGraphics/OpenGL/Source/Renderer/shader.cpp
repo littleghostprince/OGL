@@ -109,6 +109,10 @@ void Shader::Link()
 void Shader::Use()
 {
 	glUseProgram(m_programID);
+	for (SubroutineInfo info : m_subroutines)
+	{
+		glUniformSubroutinesuiv(info.shaderType, 1, &info.index);
+	}
 }
 
 void Shader::SetUniform(const std::string& name, float x, float y, float z)
@@ -179,10 +183,19 @@ GLint Shader::GetUniform(const std::string& name)
 		m_uniforms[name] = glGetUniformLocation(m_programID, name.c_str());
 		if (m_uniforms[name] == -1)
 		{
-			SDL_Log("Error: %s uniform does not exist in the shader.\n", name);
+			//SDL_Log("Error: %s uniform does not exist in the shader.\n", name.c_str());
 		}
 	}
 
 	return m_uniforms[name];
 }
 
+void Shader::AddSubroutine(GLenum shaderType, const std::string& subroutine)
+{
+	Use();
+
+	GLuint subroutineIndex = glGetSubroutineIndex(m_programID, shaderType, subroutine.c_str());
+	SubroutineInfo subroutineInfo = { shaderType, subroutineIndex };
+
+	m_subroutines.push_back(subroutineInfo);
+}
