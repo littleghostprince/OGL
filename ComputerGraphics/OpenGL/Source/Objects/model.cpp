@@ -43,7 +43,7 @@ bool Model::Import(const std::string& filename)
 {
 	Assimp::Importer importer;
 
-	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenNormals);
+	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 	assert(scene);
 
 	ProcessNode(scene->mRootNode, scene);
@@ -71,6 +71,8 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec2> textcords;
 
+	std::vector<glm::vec3> tangents;
+
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
 	{
 		glm::vec3 position;
@@ -89,23 +91,35 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 		if (mesh->mTextureCoords[0])
 		{
+
+			glm::vec3 tangent;
+			tangent.x = mesh->mTangents[i].x;
+			tangent.y = mesh->mTangents[i].y;
+			tangent.z = mesh->mTangents[i].z;
+			tangents.push_back(tangent);
+
 			glm::vec2 textcord;
 			textcord.x = mesh->mTextureCoords[0][i].x;
 			textcord.y = mesh->mTextureCoords[0][i].y;
 			textcords.push_back(textcord);
 		}
 	}
-		m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::POSITION, sizeof(glm::vec3), (GLsizei)positions.size(), &positions[0]);
+		m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::POSITION, 3 * sizeof(GLfloat), (GLsizei)positions.size(), &positions[0]);
 		m_vertexArrays.SetAttribute(0, 3, (sizeof(glm::vec3)), 0);
 		if (normals.size() > 0)
 		{
-			m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::NORMAL, sizeof(glm::vec3), (GLsizei)normals.size(), &normals[0]);
+			m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::NORMAL, 3 * sizeof(GLfloat), (GLsizei)normals.size(), &normals[0]);
 			m_vertexArrays.SetAttribute(1, 3, (sizeof(glm::vec3)), 0);
 		}
 		if (textcords.size() > 0)
 		{
-		m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::TEXCOORD, sizeof(glm::vec2), (GLsizei)textcords.size(), &textcords[0]);
+		m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::TEXCOORD, 2* sizeof(GLfloat), (GLsizei)textcords.size(), &textcords[0]);
 		m_vertexArrays.SetAttribute(2, 2, (sizeof(glm::vec2)), 0);
+		}
+		if (tangents.size() > 0)
+		{
+			m_vertexArrays.CreateBuffer(VertexArrays::eVertexType::TANGENT, 3* sizeof(GLfloat), (GLsizei)tangents.size(), &tangents[0]);
+			m_vertexArrays.SetAttribute(3, 3, (sizeof(glm::vec3)), 0);
 		}
 
 		std::vector<GLuint> indices;

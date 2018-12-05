@@ -147,6 +147,9 @@
     <ClCompile Include="..\Source\Scenes\scene11.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Scenes\scene12.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Middleware\soil\src\SOIL.h">
@@ -260,6 +263,9 @@
     <ClInclude Include="..\Source\Scenes\scene11.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Scenes\scene12.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\basic.fs">
@@ -332,6 +338,15 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\phong_nm.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong_nm.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong_shadow.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong_shadow.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
