@@ -104,7 +104,8 @@ bool Scene10::Initialize()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureID, 0);
 
 	//Depth Buffer
-	GLuint depthBufferID; glGenRenderbuffers(1, &depthBufferID);
+	GLuint depthBufferID; 
+	glGenRenderbuffers(1, &depthBufferID);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthBufferID);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferID);

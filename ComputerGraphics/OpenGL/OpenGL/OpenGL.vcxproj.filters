@@ -349,5 +349,11 @@
     <None Include="..\Resources\Shaders\phong_shadow.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\Resources\Shaders\phong_shadow_debug.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong_shadow_debug.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

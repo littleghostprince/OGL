@@ -254,6 +254,8 @@
     <None Include="..\Resources\Shaders\phong_nm.vs" />
     <None Include="..\Resources\Shaders\phong_shadow.fs" />
     <None Include="..\Resources\Shaders\phong_shadow.vs" />
+    <None Include="..\Resources\Shaders\phong_shadow_debug.fs" />
+    <None Include="..\Resources\Shaders\phong_shadow_debug.vs" />
     <None Include="..\Resources\Shaders\phong_specular_map.fs" />
     <None Include="..\Resources\Shaders\phong_specular_map.vs" />
     <None Include="..\Resources\Shaders\phong_spotlight.fs" />

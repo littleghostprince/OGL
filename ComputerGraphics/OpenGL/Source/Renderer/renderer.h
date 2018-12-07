@@ -29,6 +29,7 @@ public:
 private:
 	SDL_Window * m_window = nullptr;
 	SDL_GLContext m_context;
+public:
 	int m_width;
 	int m_height;
 };
